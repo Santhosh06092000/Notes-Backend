@@ -13,6 +13,12 @@ router = APIRouter()
 
 @router.post("/register/")
 async def register_user(user: User, session: SessionDep):
+    # Check if the email already exists
+    existing_user = session.exec(select(User).where(
+        User.user_email == user.user_email)).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+
     user.password = hash_password(user.password)
     session.add(user)
     session.commit()

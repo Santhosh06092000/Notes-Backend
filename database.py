@@ -4,8 +4,18 @@ from typing import Annotated
 
 from fastapi import Depends
 from sqlmodel import Session, SQLModel, create_engine
+from pydantic_settings import BaseSettings
 
-DATABASE_URL = "mysql+pymysql://root:Admin@localhost:3306/notes"
+
+class Settings(BaseSettings):
+    DB_URL: str
+
+
+settings = Settings()
+
+print("check", settings.DB_URL)
+
+DATABASE_URL = settings.DB_URL
 
 engine = create_engine(DATABASE_URL)
 
