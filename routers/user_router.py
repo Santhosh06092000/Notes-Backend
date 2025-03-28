@@ -36,7 +36,7 @@ async def login(user_email: str, password: str, session: SessionDep):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
     token = create_access_token({"sub": user.user_email})
-    return {"access_token": token, "user": user}
+    return {"token": token, "user": user}
 
 
 @router.get("/users/")
